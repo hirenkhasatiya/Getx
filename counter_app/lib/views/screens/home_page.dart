@@ -15,102 +15,100 @@ class HomePage extends StatelessWidget {
         title: const Text("Counter App"),
         centerTitle: true,
       ),
-      body: GetBuilder<counterController>(builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const Spacer(
-                flex: 5,
-              ),
-              Center(
-                  child: Text(
-                "${controller.counter}",
-                style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold),
-              )),
-              const Spacer(
-                flex: 4,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.increase();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 90,
-                      width: 170,
-                      child: const Center(
-                          child: Text("+2",
-                              style: TextStyle(
-                                  fontSize: 30, color: Colors.white))),
+      body: Obx(() => Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                const Spacer(
+                  flex: 5,
+                ),
+                Center(
+                    child: Text(
+                  "${controller.counter}",
+                  style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold),
+                )),
+                const Spacer(
+                  flex: 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        controller.increase();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 90,
+                        width: 170,
+                        child: const Center(
+                            child: Text("+2",
+                                style: TextStyle(
+                                    fontSize: 30, color: Colors.white))),
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      controller.increase2();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 90,
-                      width: 170,
-                      child: const Center(
-                          child: Text("+4",
-                              style: TextStyle(
-                                  fontSize: 30, color: Colors.white))),
+                    GestureDetector(
+                      onTap: () {
+                        controller.increase2();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 90,
+                        width: 170,
+                        child: const Center(
+                            child: Text("+4",
+                                style: TextStyle(
+                                    fontSize: 30, color: Colors.white))),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.Decrement();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 90,
-                      width: 170,
-                      child: const Center(
-                          child: Text("-2",
-                              style: TextStyle(
-                                  fontSize: 30, color: Colors.white))),
+                  ],
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        controller.Decrement();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 90,
+                        width: 170,
+                        child: const Center(
+                            child: Text("-2",
+                                style: TextStyle(
+                                    fontSize: 30, color: Colors.white))),
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      controller.Decrement2();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 90,
-                      width: 170,
-                      child: const Center(
-                          child: Text("-4",
-                              style: TextStyle(
-                                  fontSize: 30, color: Colors.white))),
+                    GestureDetector(
+                      onTap: () {
+                        controller.Decrement2();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 90,
+                        width: 170,
+                        child: const Center(
+                            child: Text("-4",
+                                style: TextStyle(
+                                    fontSize: 30, color: Colors.white))),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Spacer()
-            ],
-          ),
-        );
-      }),
+                  ],
+                ),
+                const Spacer()
+              ],
+            ),
+          )),
     );
   }
 }
