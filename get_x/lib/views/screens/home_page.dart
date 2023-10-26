@@ -78,7 +78,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Obx(
-                () => (controller.getproduct.isNotEmpty)
+                () => (controller.allProduct.isNotEmpty)
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Column(
@@ -134,15 +134,48 @@ class HomePage extends StatelessWidget {
                       ),
               ),
             ])),
-            SliverGrid.builder(
-                itemCount: (controller.selectedCategory == 'All')
-                    ? controller.getproduct.length
-                    : controller.getcategorys.length,
-                itemBuilder: (context, index) => Container(
-                      child: Text('${index}'),
-                    ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2)),
+            Obx(() {
+              return SliverGrid.builder(
+                  itemCount: (controller.selectedCategory == 'All')
+                      ? controller.allProduct.length
+                      : controller.getcategorys.length,
+                  itemBuilder: (context, index) => Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                        (controller.selectedCategory == 'All')
+                                            ? '${controller.allProduct[index].thumbnail}'
+                                            : '${controller.allproductCategory}',
+                                      ),
+                                      fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(10))),
+                            )),
+                          ],
+                        ),
+                      ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 3 / 4.5, crossAxisCount: 2));
+            }),
           ],
         ));
   }

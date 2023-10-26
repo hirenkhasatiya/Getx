@@ -8,7 +8,7 @@ class productController extends GetxController {
 
   RxInt selectindex = 0.obs;
 
-  RxList<Product> _allProduct = <Product>[].obs;
+  RxList<Product> allProduct = <Product>[].obs;
   RxList<String> _allcategorys = <String>[].obs;
 
   RxList allproductCategory = [].obs;
@@ -25,9 +25,9 @@ class productController extends GetxController {
   ];
   init() async {
     print("method called");
-    _allProduct(await ApiHelper.apiHelper.getProduct());
+    allProduct(await ApiHelper.apiHelper.getProduct());
     _allcategorys(
-        (_allProduct.map((e) => e.category).toList()).toSet().toList());
+        (allProduct.map((e) => e.category).toList()).toSet().toList());
     print("data gated");
     _allcategorys.insert(0, 'All');
     update();
@@ -52,10 +52,6 @@ class productController extends GetxController {
   selectcategory({required String category}) {
     selectedCategory(category);
     update();
-  }
-
-  get getproduct {
-    return _allProduct.value;
   }
 
   get getcategorys {
