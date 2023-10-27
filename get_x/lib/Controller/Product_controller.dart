@@ -8,10 +8,8 @@ class productController extends GetxController {
 
   RxInt selectindex = 0.obs;
 
-  RxList<Product> allProduct = <Product>[].obs;
+  RxList<Product> _allProduct = <Product>[].obs;
   RxList<String> _allcategorys = <String>[].obs;
-
-  RxList allproductCategory = [].obs;
 
   List image = [
     'Assets/images/image1.jpg',
@@ -25,9 +23,9 @@ class productController extends GetxController {
   ];
   init() async {
     print("method called");
-    allProduct(await ApiHelper.apiHelper.getProduct());
+    _allProduct(await ApiHelper.apiHelper.getProduct());
     _allcategorys(
-        (allProduct.map((e) => e.category).toList()).toSet().toList());
+        (_allProduct.map((e) => e.category).toList()).toSet().toList());
     print("data gated");
     _allcategorys.insert(0, 'All');
     update();
@@ -35,13 +33,6 @@ class productController extends GetxController {
 
   productController() {
     init();
-  }
-
-  getproducts({required String category}) {
-    (selectedCategory == getcategorys['category'])
-        ? allproductCategory = getcategorys
-        : Container();
-    update();
   }
 
   changeindex({required int index}) {
@@ -54,7 +45,11 @@ class productController extends GetxController {
     update();
   }
 
-  get getcategorys {
-    return _allcategorys.value;
+  RxList<Product> get getproduct {
+    return _allProduct;
+  }
+
+  RxList<String> get getcategorys {
+    return _allcategorys;
   }
 }

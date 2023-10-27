@@ -2,6 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_x/Controller/Product_controller.dart';
+import 'package:get_x/Controller/cart_controller.dart';
+import 'package:get_x/Modal/product_modal.dart';
+import 'package:get_x/views/screens/detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,14 +12,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     productController controller = Get.put(productController());
+    cartController cart = Get.put(cartController());
 
     return Scaffold(
         appBar: AppBar(
           title: const Text("Home Page"),
           centerTitle: true,
           actions: [
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.shopping_cart_rounded))
+            Obx(() {
+              return Stack(
+                alignment: Alignment(0, -0.9),
+                children: [
+                  Text("${cart.listcart[0].Qty}"),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.shopping_cart_rounded)),
+                ],
+              );
+            })
           ],
         ),
         drawer: const Drawer(),
@@ -78,7 +91,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Obx(
-                () => (controller.allProduct.isNotEmpty)
+                () => (controller.getproduct.isNotEmpty)
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Column(
@@ -137,40 +150,50 @@ class HomePage extends StatelessWidget {
             Obx(() {
               return SliverGrid.builder(
                   itemCount: (controller.selectedCategory == 'All')
-                      ? controller.allProduct.length
+                      ? controller.getproduct.length
                       : controller.getcategorys.length,
-                  itemBuilder: (context, index) => Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        (controller.selectedCategory == 'All')
-                                            ? '${controller.allProduct[index].thumbnail}'
-                                            : '${controller.allproductCategory}',
-                                      ),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(10),
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            DetailPage(),
+                            arguments: (controller.selectedCategory == 'All')
+                                ? controller.getproduct[index]
+                                : controller.getcategorys[index],
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                          (controller.selectedCategory == 'All')
+                                              ? '${controller.getproduct[index].thumbnail}'
+                                              : '',
+                                        ),
+                                        fit: BoxFit.cover),
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(10),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                                child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.vertical(
-                                      bottom: Radius.circular(10))),
-                            )),
-                          ],
+                              Expanded(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(10))),
+                              )),
+                            ],
+                          ),
                         ),
                       ),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

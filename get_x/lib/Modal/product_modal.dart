@@ -1,7 +1,10 @@
+import 'package:get/get.dart';
+
 class Product {
   int id, price;
   String title, description, category, thumbnail;
   List images;
+  RxInt Qty = 1.obs;
 
   Product(
       {required this.id,

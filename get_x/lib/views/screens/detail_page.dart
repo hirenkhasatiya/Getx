@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_x/Controller/Product_controller.dart';
+import 'package:get_x/Controller/cart_controller.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var a = Get.arguments;
+    productController controller = Get.find<productController>();
+
+
+    var data = Get.arguments;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detail Page : ${a}"),
+        title: Text("Detail Page : ${controller.getproduct[0].}"),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
