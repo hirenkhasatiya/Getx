@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_x/Controller/Product_controller.dart';
 import 'package:get_x/Controller/cart_controller.dart';
-import 'package:get_x/Modal/product_modal.dart';
+import 'package:get_x/views/screens/cart_page.dart';
 import 'package:get_x/views/screens/detail_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,17 +20,21 @@ class HomePage extends StatelessWidget {
           title: const Text("Home Page"),
           centerTitle: true,
           actions: [
-            Obx(() {
-              return Stack(
-                alignment: Alignment(0, -0.9),
-                children: [
-                  Text("${cart.listcart[0].Qty}"),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.shopping_cart_rounded)),
-                ],
-              );
-            })
+            Stack(
+              children: [
+                Positioned(
+                    left: 20,
+                    child: Obx(() {
+                      return Text('${cart.listcart.length}');
+                    })),
+                IconButton(
+                  onPressed: () {
+                    Get.to(cartPage());
+                  },
+                  icon: Icon(Icons.shopping_cart),
+                ),
+              ],
+            ),
           ],
         ),
         drawer: const Drawer(),
@@ -155,7 +160,7 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Get.to(
-                            DetailPage(),
+                            const DetailPage(),
                             arguments: (controller.selectedCategory == 'All')
                                 ? controller.getproduct[index]
                                 : controller.getcategorys[index],
@@ -163,8 +168,9 @@ class HomePage extends StatelessWidget {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
+                          decoration: BoxDecoration(boxShadow: const [
+                            BoxShadow(blurRadius: 2, color: Colors.grey)
+                          ], borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             children: [
                               Expanded(
@@ -175,11 +181,12 @@ class HomePage extends StatelessWidget {
                                     image: DecorationImage(
                                         image: NetworkImage(
                                           (controller.selectedCategory == 'All')
-                                              ? '${controller.getproduct[index].thumbnail}'
+                                              ? controller
+                                                  .getproduct[index].thumbnail
                                               : '',
                                         ),
                                         fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.vertical(
+                                    borderRadius: const BorderRadius.vertical(
                                       top: Radius.circular(10),
                                     ),
                                   ),
@@ -187,10 +194,51 @@ class HomePage extends StatelessWidget {
                               ),
                               Expanded(
                                   child: Container(
+                                width: double.infinity,
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.vertical(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: const BorderRadius.vertical(
                                         bottom: Radius.circular(10))),
+                                child: Stack(
+                                  children: [
+                                    Text(controller.getproduct[index].title,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontWeight: FontWeight.bold)),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Text(
+                                        '\$${controller.getproduct[index].price}',
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment(1.2, 3.2),
+                                      child: IconButton(onPressed: () {
+                                        Get.snackbar(
+                                            'success',
+                                            (cart.listcart.contains(controller
+                                                    .getproduct[index])
+                                                ? 'remove'
+                                                : 'Add'));
+                                        (cart.listcart.contains(
+                                                controller.getproduct[index])
+                                            ? cart.removecart(
+                                                product: controller
+                                                    .getproduct[index])
+                                            : cart.addcart(
+                                                product: controller
+                                                    .getproduct[index]));
+                                      }, icon: Obx(() {
+                                        return Icon((cart.listcart.contains(
+                                                controller.getproduct[index])
+                                            ? CupertinoIcons.cart_badge_minus
+                                            : CupertinoIcons.cart_badge_plus));
+                                      })),
+                                    )
+                                  ],
+                                ),
                               )),
                             ],
                           ),
