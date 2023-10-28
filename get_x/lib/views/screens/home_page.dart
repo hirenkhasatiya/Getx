@@ -203,10 +203,13 @@ class HomePage extends StatelessWidget {
                                         bottom: Radius.circular(10))),
                                 child: Stack(
                                   children: [
-                                    Text(controller.getproduct[index].title,
-                                        style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontWeight: FontWeight.bold)),
+                                    Text(
+                                      controller.getproduct[index].title,
+                                      style: const TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    ),
                                     Align(
                                       alignment: Alignment.bottomLeft,
                                       child: Text(
